@@ -124,6 +124,42 @@
           }
         }
       }
+    },
+    "data-synthesizer": {
+      "projectType": "library",
+      "root": "projects/data-synthesizer",
+      "sourceRoot": "projects/data-synthesizer/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/data-synthesizer/tsconfig.lib.json",
+            "project": "projects/data-synthesizer/ng-package.json"
+
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/data-synthesizer/src/test.ts",
+            "tsConfig": "projects/data-synthesizer/tsconfig.spec.json",
+            "karmaConfig": "projects/data-synthesizer/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/data-synthesizer/tsconfig.lib.json",
+              "projects/data-synthesizer/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "data-synth-project"
 }

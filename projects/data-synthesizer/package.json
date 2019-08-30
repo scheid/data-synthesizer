@@ -1,0 +1,18 @@
+{
+  "name": "data-synthesizer",
+  "version": "0.0.1",
+  "author": "Todd Eischeid",
+  "description": "Data generation tool, that creates/synthesizes data for your angular application based on a configuration object. data is generated in realtime when your angular application is loaded.",
+  "homepage": "",
+  "keywords": ["data generator", "pseudo random number generator", "mock data", "angular", "mock api"],
+  "peerDependencies": {
+    "@angular/common": "^8.2.0",
+    "@angular/core": "^8.2.0"
+  },
+
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "rxjs": "~6.4.0",
+    "prng-wasm": "^1.0.2"
+  }
+}
