@@ -1,25 +1,20 @@
 # Data Synthesizer
 
-Provides a highly configurable way to generate data that mimics an API call, etc.
+Provides a highly configurable way to dynamically generate data to mimic an API call, etc.  The data synthesizer is an angular service that is integrated into an Angular project, and the data is created in realtime using a call to the service.  This is a completely client-side service; no server side is needed.
 
-You provide a javascript-based configuration object to the synthesizer, which determines the structure of the data, 
-field definitions, how to generate the data for each field, and how much data to generate.  
+The generation is very fast, typically less than a 100 milliseconds for 500 records and ~10 fields.  The random number generation at the heart of the synthesizer is handled by a WebAssembly module that uses the Mersenne Twister C implementation. The source code for that WebAssembly module is at https://github.com/scheid/prng-wasm
 
-
-
+To generate data within your angular project, you create a javascript configuration object to pass to the synthesizer. The config object completely defines the structure of the data, field definitions, how to generate the data for each field, and how much data to generate.  
+An angular demo project is located at: https://github.com/scheid/data-synthesizer-demo
 
 Two key differences from most other data generators are:
-1. the ability to create as complex of a hierarchy as you wish; there is no limit to the amount of nested data that 
-you can define.
-2. the generator and configuration object are integrated into your (angular) project, and you can very easily change anything about
-the configuration and regenerate a new dataset instantly.
-
-Data is generated in realtime when you call the service method. You can easily call the service method with a different configuration and get
-different data, at any point when your application is running.
-
+1. Complex Hierarchical data sets. The ability to create as complex of a hierarchy as you wish; there is no limit to the amount of nested data that you can define.
+2. Realtime data generation. the generator and configuration object are integrated into your (angular) project, and you can very easily change anything about the configuration and regenerate a new dataset instantly to get different data, more data, or less data.
 
 The best way to see the capability, is to download the data synthesizer demo, which is an angular cli project that illustrates how to i
 incorporate the data synthesizer service and also contains a sample, documented configuration object
+
+Some common lists are also available in a separate NPM package, just as a convenience: https://github.com/scheid/data-synthesizer-common-lists
 
 -----------------------------------------------------------
 

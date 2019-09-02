@@ -107,14 +107,13 @@ export class DataSynthesizerService {
     // for the wasmBinary value. if your byte array is named wasmBytes, for example, the 'wasmBinary' value below
     // could either be just 'wasmBytes', or could be 'new Uint8Array(wasmBytes)'
 
-
     const moduleArgs = {
       wasmBinary: binary,
       onRuntimeInitialized: () => {
-        console.log('runtime initialized fired');
+   //     console.log('runtime initialized fired');
         this.wasmReady.next(true);
 
-        console.log('module functions', this.module.asm);
+    //    console.log('module functions', this.module.asm);
       },
     };
 
@@ -432,17 +431,10 @@ export class DataSynthesizerService {
   public generateDataset(config): Observable<any[]> {
     return this.wasmReady.pipe(filter(value => value === true)).pipe(
       map(() => {
-
-        const start = new Date().getTime();
-
         this.module._setSeed(config.seed);
 
         // start the generation; also handles all recursing into child objects.
         const dataset = this.generateObject(config);
-
-        const end = new Date().getTime();
-
-        console.log('dataset generated in ' + (end - start) + ' msec');
 
         return dataset;
 
