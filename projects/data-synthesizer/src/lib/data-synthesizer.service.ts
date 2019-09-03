@@ -272,6 +272,9 @@ export class DataSynthesizerService {
           holdTmpVals[j] = this.getNormalDistributionVariatesInternal(config.fields[j].mean, config.fields[j].stDev, config.recordsToGenerate);
           break;
 
+        case DataSynthUtil.RANDOM_NUMERIC_RANGE_LOGNORMAL:
+          holdTmpVals[j] = this.getLogNormalDistributionVariatesInternal(config.fields[j].mean, config.fields[j].stDev, true, config.recordsToGenerate);
+
         case DataSynthUtil.RANDOM_NUMERIC_RANGE_EXPONENTIAL:
           holdTmpVals[j] = this.getExponentialDistributionVariatesInternal(config.fields[j].lambda, config.recordsToGenerate);
           break;
@@ -485,8 +488,32 @@ export class DataSynthesizerService {
   }
 
 
-  private getNormalDistributionVariatesInternal(mean: number, stDev: number, count: number): number[] {
+  private getLogNormalDistributionVariatesInternal(mu: number, sigma: number, reinterpretParams: boolean, count: number): number[] {
+    const offset = this.module._getLogNormalDistributionVariates(mu, sigma, reinterpretParams, count);
+    const returnData: number[] = [];
 
+    for (let v = 0; v < count; v++) {
+      // normal variate values are returned as doubles
+      returnData.push(this.module.HEAPF64[(offset / Float64Array.BYTES_PER_ELEMENT) + v]);
+    }
+
+    return returnData;
+
+  }
+
+  public getLogNormalDistributionVariates(mu: number, sigma: number, reinterpretParams: boolean, count: number): Observable<number[]> {
+
+    return this.wasmReady.pipe(filter(value => value === true)).pipe(
+      map( () => {
+
+        return this.getLogNormalDistributionVariatesInternal(mu, sigma, reinterpretParams, count);
+      } )
+
+    ) ;
+  }
+
+
+  private getNormalDistributionVariatesInternal(mean: number, stDev: number, count: number): number[] {
 
     const offset = this.module._getNormalDistributionVariates(mean, stDev, count);
     const returnData: number[] = [];

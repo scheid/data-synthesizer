@@ -4,10 +4,21 @@
 export abstract class DataSynthUtil {
 
 
+  /*
+    additional types to add:
+
+       step through / sequence - each record steps through a sequence in a list or a range of numbers. If the end of the list is reached, will start back at end of list.
+
+       types such as SSN, phone numbers, addresses.
+  * */
+
   // The field types; how to generate data for a field
 
   public static RANDOM_NUMERIC_RANGE_UNIFORM = 0x01;  // values uniformly distributed across a range; all values in the range have equal probability of being selected.
   public static RANDOM_NUMERIC_RANGE_NORMAL = 0x02;  // choose based on a normal frequency distribution, supply mean and std
+
+  public static RANDOM_NUMERIC_RANGE_LOGNORMAL = 0x12;
+
   public static RANDOM_LIST_WEIGHTED = 0x03;  // picking items from a list need to supply the weights array if using this.
   public static RANDOM_LIST_UNIFORM = 0x04;  // just pick an item from a list; all weights/probabilities equal.
   public static DATE_IN_PAST_EXACT = 0x05;
