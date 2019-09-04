@@ -252,11 +252,23 @@ export class DataSynthesizerService {
     }
 
 
+    let temporaryFields = [];
+    let calculatedFields = [];
 
     // pre-populate arrays with the necesssary raw random values.
     // each of the calls here populate each field value with raw values for all records
     // so, each holdTmpVals[j] is an array that contains all values for a single field.
     for (j = 0; j < config.fields.length; j++) {
+
+      if (config.fields[j].temporary) {
+        temporaryFields.push(config.fields[j].name);
+      }
+
+      // save any calculated fields along with calculation order
+      // if no calculation order is specified, it will be below any fields that do have order specified.
+      if (config.fields[j].type === DataSynthUtil.CALCULATED) {
+        calculatedFields.push({name: config.fields[j].name, order: config.fields[j].order || 99999});  // assign really large number so sort puts below fields with a value for order.
+      }
 
 
       switch (config.fields[j].type) {
@@ -410,17 +422,33 @@ export class DataSynthesizerService {
       }
     }
 
+
+    // sort by specified calculation order.
+    calculatedFields = _.orderBy(calculatedFields, ['order'], ['asc']);
+
     // a second pass through to assign calculated fields, which can only be done
     // after all of the final values have been assigned to the other fields.
     for (i = 0; i < config.recordsToGenerate; i++) {
-      for (j = 0; j < config.fields.length; j++) {
+      for (j = 0; j < calculatedFields.length; j++) {
 
-        if (config.fields[j].type === DataSynthUtil.CALCULATED) {
-          dataset[i][config.fields[j].name] = config.fields[j].fn(dataset[i]);
-        }
+          dataset[i][calculatedFields[j].name] = config.fields[j].fn(dataset[i]);
+
 
       }
     }
+
+
+
+    if (temporaryFields.length > 0) {
+
+      // Now, remove any fields marked with temporary: true. hidden fields would only be used to help in calculated fields.
+      for (i = 0; i < config.recordsToGenerate; i++) {
+        for (j = 0; j < temporaryFields.length; j++) {
+            delete dataset[i][temporaryFields[j]];
+        }
+      }
+    }
+
 
 
     // if you specify to generate a single record, this will return an object, not an array;
