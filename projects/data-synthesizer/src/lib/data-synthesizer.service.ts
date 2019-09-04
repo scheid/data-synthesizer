@@ -139,10 +139,6 @@ export class DataSynthesizerService {
     // local convenience function for assigning values for most of the types.
     const assignDatasetVals = (recIdx: number, configFieldIdx: number, type: any) => {
 
-
-      //  TODO: perhaps if the fields are an array, but there is no listObjectField name specified, then
-      //      could assign the entire array element to the field value, whether it is an object or simple vaule.
-
       // are the fields specified as an array?
       if (Array.isArray(config.fields[configFieldIdx].name)) {
 
@@ -154,21 +150,20 @@ export class DataSynthesizerService {
             // first array el is field name, second is formatting function.
             const tmp = config.fields[configFieldIdx].name[k].split(':');
 
-
+            // for list assignment; the holdTmpVals values each represents an array index.
+            // is listObjectFieldName specified?
             if (config.fields[configFieldIdx].listObjectFieldName) {
-              // for list assignment; the holdTmpVals values each represents an array index.
+
               if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM)) {
                 dataset[recIdx][tmp[0]] = config.valueFormattingFunctions[tmp[1]](config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx]][config.fields[configFieldIdx].listObjectFieldName[k]]);
               }
             } else {
-              // for list assignment; the holdTmpVals values each represents an array index.
+
               // if no list object field is specified, then assign entire array element
               if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM)) {
                 dataset[recIdx][tmp[0]] = config.valueFormattingFunctions[tmp[1]](config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx]]);
               }
             }
-
-
 
             // for these, can directly assign holdTmpVals to the field value.
             // this case really doesn't make sense; an array of fields would really only be used when using source lists that are arrays of objects
@@ -187,14 +182,14 @@ export class DataSynthesizerService {
           } else {
 
 
-            // is a list object field specified
+            // is listObjectFieldName specified?
             if (config.fields[configFieldIdx].listObjectFieldName) {
               if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM)) {
                 dataset[recIdx][config.fields[configFieldIdx].name[k]] = config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx]][config.fields[configFieldIdx].listObjectFieldName[k]];
               }
             } else {
 
-              // if no list object field is specified, then assign entire array element
+              // if no list object field is specified, then assign entire list array element to the field
               if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM)) {
                 dataset[recIdx][config.fields[configFieldIdx].name[k]] = config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx]];
               }
