@@ -30,7 +30,7 @@ export abstract class DataSynthUtil {
   public static UNIQUE_ID_UUID = 0x09;
   public static UNIQUE_ID_AUTOINCREMENT = 0x0a;
 
-  public static OBJECT = 0x0c;  // if the field should be recursed into to generate child object data.
+  public static OBJECT = 0x0c;  // indicates that the field should be recursed into to generate child object data.
 
   // choose values based on an exponential frequency distribution.
   public static RANDOM_NUMERIC_RANGE_EXPONENTIAL = 0x0d;
