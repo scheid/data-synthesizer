@@ -492,6 +492,7 @@ export class DataSynthesizerService {
           case DataSynthUtil.DATE_IN_PAST_RANGE:
           case DataSynthUtil.RANDOM_LIST_WEIGHTED:
           case DataSynthUtil.RANDOM_LIST_UNIFORM:
+          case DataSynthUtil.ITEMS_FROM_SET:
             assignDatasetVals(i, j, config.fields[j].type);
             break;
 
