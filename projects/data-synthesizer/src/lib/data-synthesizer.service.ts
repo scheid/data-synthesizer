@@ -331,7 +331,7 @@ export class DataSynthesizerService {
       // if no calculation order is specified, it will be below any fields that do have order specified.
       if (config.fields[j].type === DataSynthUtil.CALCULATED) {
         // if calculated, but no order specified, then assign really large number so sort puts below fields with a value for order.
-        calculatedFields.push({name: config.fields[j].name, calculatedOrder: config.fields[j].calculatedOrder || 999999});
+        calculatedFields.push({name: config.fields[j].name, calculatedOrder: config.fields[j].calculatedOrder || 999999, fieldIdx: j});
       }
 
 
@@ -495,7 +495,7 @@ export class DataSynthesizerService {
     for (i = 0; i < config.recordsToGenerate; i++) {
       for (j = 0; j < calculatedFields.length; j++) {
 
-          dataset[i][calculatedFields[j].name] = config.fields[j].fn(dataset[i], dataset, i);
+          dataset[i][calculatedFields[j].name] = config.fields[calculatedFields[j].fieldIdx].fn(dataset[i], dataset, i);
 
 
       }
