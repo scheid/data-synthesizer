@@ -90,7 +90,8 @@ export class DataSynthesizerService {
     return this.getRndDateInPast(-1 * minDaysAhead, -1 * maxDaysAhead, exactDays, randomVariate);
   }
 
-
+  // manually set the seed; you only need to use this if you are using the lower level random number functions. the generatedataset
+  // function sets the seed as part of its generation.
   public setSeed(seed: number): Observable<boolean> {
     return this.wasmReady.pipe(filter(value => value === true)).pipe(
       map( () => {
@@ -444,7 +445,7 @@ export class DataSynthesizerService {
           break;
 
         case DataSynthUtil.ITEMS_FROM_SET:
-          holdTmpVals[j] = this.chooseRandomItems(config.fields[j].list.length, config.fields[j].itemCount, config.recordsToGenerate);
+          holdTmpVals[j] = this.chooseRandomItemsInternal(config.fields[j].list.length, config.fields[j].itemCount, config.recordsToGenerate);
           break;
 
 
@@ -826,7 +827,7 @@ export class DataSynthesizerService {
 
   }
 
-  getCharacterIds(count: number): Observable<string[]> {
+  public getCharacterIds(count: number): Observable<string[]> {
 
     return this.wasmReady.pipe( filter(value => value === true) ).pipe(
 
@@ -855,33 +856,39 @@ export class DataSynthesizerService {
 
   }
 
-  chooseRandomItems(sourceArraySize, itemsToPick, valueSetCount): Observable<number[]> {
+  public chooseRandomItems(sourceArraySize, itemsToPick, valueSetCount): Observable<number[]> {
 
     return this.wasmReady.pipe(filter(value => value === true)).pipe(
       map( () => {
 
-          const offset = this.module._chooseRandomItems(sourceArraySize, itemsToPick, valueSetCount);
-          const returnData: any[] = [];
-          let cntr = -1;
-
-          const typedOffset = (offset / Int32Array.BYTES_PER_ELEMENT);
-
-          // break the 1d array returned by wasm back into a 2d itemsToPick x valueSetCount array.
-          for (let i = 0; i < valueSetCount; i++) {
-            returnData[i] = [];
-
-            for (let v = 0; v < itemsToPick; v++) {
-              cntr++;
-              returnData[i].push( this.module.HEAP32[typedOffset + cntr] );
-            }
-          }
-
-          return returnData;
+          return this.chooseRandomItemsInternal(sourceArraySize, itemsToPick, valueSetCount);
 
         }
       )
     );
 
+  }
+
+  // internal; call only when you know wasm module is already instantiated.
+  private chooseRandomItemsInternal(sourceArraySize, itemsToPick, valueSetCount): number[] {
+
+    const offset = this.module._chooseRandomItems(sourceArraySize, itemsToPick, valueSetCount);
+    const returnData: any[] = [];
+    let cntr = -1;
+
+    const typedOffset = (offset / Int32Array.BYTES_PER_ELEMENT);
+
+    // break the 1d array returned by wasm back into a 2d itemsToPick x valueSetCount array.
+    for (let i = 0; i < valueSetCount; i++) {
+      returnData[i] = [];
+
+      for (let v = 0; v < itemsToPick; v++) {
+        cntr++;
+        returnData[i].push( this.module.HEAP32[typedOffset + cntr] );
+      }
+    }
+
+    return returnData;
   }
 
 
