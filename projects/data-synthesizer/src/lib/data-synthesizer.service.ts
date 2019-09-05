@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, Optional } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -28,6 +28,7 @@ export class DataSynthesizerService {
   holdAutoIncrementId: number;
 
 
+  // accept seed value from injected value, if present.
   constructor() {
 
     this.holdAutoIncrementId = 1;
@@ -90,6 +91,18 @@ export class DataSynthesizerService {
   }
 
 
+  public setSeed(seed: number): Observable<boolean> {
+    return this.wasmReady.pipe(filter(value => value === true)).pipe(
+      map( () => {
+        this.module._setSeed(seed);
+        return true;
+      } )
+
+    ) ;
+
+
+  }
+
 
   private async instantiateWasm(url: string) {
 
@@ -108,6 +121,7 @@ export class DataSynthesizerService {
     const moduleArgs = {
       wasmBinary: binary,
       onRuntimeInitialized: () => {
+
    //     console.log('runtime initialized fired');
         this.wasmReady.next(true);
 
