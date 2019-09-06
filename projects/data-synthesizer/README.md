@@ -419,22 +419,6 @@ The object field names will be the field names you specify in the configuration 
 ``` 
 
 
-###  DataSynthUtil.ITEMS_FROM_SET
-
-Useful if you have a set of items that you want to choose n items from, and ensure the same item is only picked once, like picking cards from a deck.
-You will need to supply a list/array to choose from, and the n items selected will be put into an array.
-
-
-The example below will pick 3 people from the list (the 'itemCount' parameter), and a person cannot be selected more than once.
-
-```
-{
-  name: 'otherFriendsName',
-  type: DataSynthUtil.ITEMS_FROM_SET,
-  itemCount: 3,
-  list: ['Juliet G. Brock', 'Bradley Z. Duran', 'Kelsie G. Deleon', 'Jack C. Rios', 'Candice I. Meyer', 'Ursa L. Trujillo']
-}
-```
 
 
 ###  DataSynthUtil.TIME_TODAY_IN_PAST_RANGE
