@@ -168,7 +168,7 @@ export class DataSynthesizerService {
             // is listObjectFieldName specified?
             if (config.fields[configFieldIdx].listObjectFieldName) {
 
-              if (type === DataSynthUtil.ITEMS_FROM_SET) {
+              if (type === DataSynthUtil.N_RANDOM_ITEMS_FROM_LIST) {
                   dataset[recIdx][tmp[0]] = [];
                   for (m = 0; m < holdTmpVals[configFieldIdx][recIdx].length; m++) {
                     dataset[recIdx][tmp[0]].push( config.valueFormattingFunctions[tmp[1]](config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx][m]][config.fields[configFieldIdx].listObjectFieldName[k]]) );
@@ -180,7 +180,7 @@ export class DataSynthesizerService {
               }
             } else {
 
-              if (type === DataSynthUtil.ITEMS_FROM_SET) {
+              if (type === DataSynthUtil.N_RANDOM_ITEMS_FROM_LIST) {
                 dataset[recIdx][tmp[0]] = [];
                 for (m = 0; m < holdTmpVals[configFieldIdx][recIdx].length; m++) {
                   dataset[recIdx][tmp[0]].push( config.valueFormattingFunctions[tmp[1]](config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx][m]]) );
@@ -213,7 +213,7 @@ export class DataSynthesizerService {
             // is listObjectFieldName specified?
             if (config.fields[configFieldIdx].listObjectFieldName) {
 
-              if (type === DataSynthUtil.ITEMS_FROM_SET) {
+              if (type === DataSynthUtil.N_RANDOM_ITEMS_FROM_LIST) {
                 dataset[recIdx][config.fields[configFieldIdx].name[k]] = [];
                 for (m = 0; m < holdTmpVals[configFieldIdx][recIdx].length; m++) {
                   dataset[recIdx][config.fields[configFieldIdx].name[k]].push( config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx][m]][config.fields[configFieldIdx].listObjectFieldName[k]] );
@@ -225,7 +225,7 @@ export class DataSynthesizerService {
               }
             } else {
 
-              if (type === DataSynthUtil.ITEMS_FROM_SET) {
+              if (type === DataSynthUtil.N_RANDOM_ITEMS_FROM_LIST) {
                 dataset[recIdx][config.fields[configFieldIdx].name[k]] = [];
                 for (m = 0; m < holdTmpVals[configFieldIdx][recIdx].length; m++) {
                   dataset[recIdx][config.fields[configFieldIdx].name[k]].push( config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx][m]] );
@@ -267,7 +267,7 @@ export class DataSynthesizerService {
           // first array el, tmp[0], is field name, second, tmp[1], is formatting function.
           const tmp = config.fields[configFieldIdx].name.split(':');
 
-          if (type === DataSynthUtil.ITEMS_FROM_SET) {
+          if (type === DataSynthUtil.N_RANDOM_ITEMS_FROM_LIST) {
             dataset[recIdx][tmp[0]] = [];
             for (m = 0; m < holdTmpVals[configFieldIdx][recIdx].length; m++) {
               dataset[recIdx][tmp[0]].push( config.valueFormattingFunctions[tmp[1]](config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx][m]]) );
@@ -293,7 +293,7 @@ export class DataSynthesizerService {
 
         } else {
 
-          if (type === DataSynthUtil.ITEMS_FROM_SET) {
+          if (type === DataSynthUtil.N_RANDOM_ITEMS_FROM_LIST) {
             dataset[recIdx][config.fields[configFieldIdx].name] = [];
             for (m = 0; m < holdTmpVals[configFieldIdx][recIdx].length; m++) {
               dataset[recIdx][config.fields[configFieldIdx].name].push( config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx][m]] );
@@ -444,7 +444,7 @@ export class DataSynthesizerService {
 
           break;
 
-        case DataSynthUtil.ITEMS_FROM_SET:
+        case DataSynthUtil.N_RANDOM_ITEMS_FROM_LIST:
           holdTmpVals[j] = this.chooseRandomItemsInternal(config.fields[j].list.length, config.fields[j].itemCount, config.recordsToGenerate);
           break;
 
@@ -492,7 +492,7 @@ export class DataSynthesizerService {
           case DataSynthUtil.DATE_IN_PAST_RANGE:
           case DataSynthUtil.RANDOM_LIST_WEIGHTED:
           case DataSynthUtil.RANDOM_LIST_UNIFORM:
-          case DataSynthUtil.ITEMS_FROM_SET:
+          case DataSynthUtil.N_RANDOM_ITEMS_FROM_LIST:
             assignDatasetVals(i, j, config.fields[j].type);
             break;
 

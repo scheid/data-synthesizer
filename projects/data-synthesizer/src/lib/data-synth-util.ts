@@ -44,10 +44,10 @@ export abstract class DataSynthUtil {
   // not sure if useful; just to assign a constant string or number to this field for all records
   // public static CONSTANT = 0x0f;
 
-  // useful if you have a set of items that you want to choose n items from,
+  // useful if you have a list of items that you want to choose n items from,
   // and ensure the same item is only picked once, like picking cards from a deck.
   // you will need to supply a list/array to choose from, and the n items selected will be put into an array.
-  public static ITEMS_FROM_SET = 0x10;
+  public static N_RANDOM_ITEMS_FROM_LIST = 0x10;
 
   // get today's date and a random time; you can optionally force to be during business hours.
   public static TIME_TODAY_IN_PAST_RANGE = 0x11;

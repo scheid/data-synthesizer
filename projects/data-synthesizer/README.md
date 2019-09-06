@@ -126,8 +126,10 @@ let myDataSynthConfig = {
 
 };
 
-
 ```
+
+A more complete, and annotated configuration example is in the demo project, specifically in  
+[data-synth-config.ts](https://github.com/scheid/data-synthesizer-demo/blob/master/src/app/data-synth-config.ts)
 
 -----------------------------------
 
@@ -192,7 +194,7 @@ an example with a variable for time spent shopping:
 
 ### DataSynthUtil.RANDOM_LIST_UNIFORM 
 
-Each value generated is an item from a list, and each item in the list will have an equal probability of being selected.
+Each value generated is an item from a list, and each item in the list will have an equal probability of being selected. A single item is selected from the list and assigned as the value.
 
 In the example below, a person name is selected from a list, and each person's name has an equal chance of being selected.
 
@@ -222,6 +224,22 @@ color value of blue, 20% will have green, etc.
   type: DataSynthUtil.RANDOM_LIST_WEIGHTED,
   list: ['blue', 'green', 'yellow', 'red'],
   weights: [0.30, 0.20, 0.20, 0.30]
+}
+
+```
+
+
+### DataSynthUtil.ITEMS_FROM_SET
+
+This will pick `n` items from a list and assign those items as an array to your field. In the example below, 
+the source list is 4 items, and the `itemCount` parameter indicates that, for each record, 2 items should be randomly selected from the list.
+
+```
+{
+  name: 'friendsNames',
+  type: DataSynthUtil.ITEMS_FROM_SET,
+  itemCount: 2,
+  list: ['Juliet G. Brock', 'Bradley Z. Duran', 'Candice I. Meyer', 'Ursa L. Trujillo']
 }
 
 ```
@@ -376,8 +394,8 @@ will be an array of [recordsToGenerate] elements.
 
 A calculated field is different that a field that you use a formatting function with. All non-calculated fields are generated and assigned first,
 and then the calculated fields are assigned.  The field value is completely determined by the value you return from the function that you
-assign to the 'fn' parameter. The argument passed into that function is an object with all fields and values for the record. This allows you to 
-assign a variables values based on other values in the same record.
+assign to the 'fn' parameter. The first parameter passed into that function is an object with all fields and values for the record. This allows you to 
+assign a variables values based on other values in the same record.  The second parameter is the entire dataset, as calculated up to that point. This will be an array of objects. The third parameter is the record index of the current record in the dataset.  This allows you to refer to other records in a relative way, for example if you want to do the calculated value based on other records relative to the current one.
 
 The example below is sort of a nonsense example, that just combines the person first and last name into a string and uses that as the field value.
 The object field names will be the field names in your configuration object.
@@ -386,7 +404,7 @@ The object field names will be the field names in your configuration object.
 {
   name: 'firstAndLastName',
   type: DataSynthUtil.CALCULATED,
-  fn: (rec) => (rec.personFirstName + ' ' + rec.personLastName)
+  fn: (rec, dataset, fieldIndex) => (rec.personFirstName + ' ' + rec.personLastName)
 },
 
 ``` 
