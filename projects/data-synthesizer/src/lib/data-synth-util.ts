@@ -40,6 +40,9 @@ export abstract class DataSynthUtil {
   // and this field would be calculated in somewhat of a second pass through the values.
   public static CALCULATED = 0x0e;
 
+  // will be sequence of items from a list
+  public static SEQUENCE_LIST = 0x13;
+
 
   // not sure if useful; just to assign a constant string or number to this field for all records
   // public static CONSTANT = 0x0f;

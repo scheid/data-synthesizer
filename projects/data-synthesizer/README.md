@@ -245,6 +245,23 @@ will only ever be used a single time in the same result array.
 
 ```
 
+### DataSynthUtil.SEQUENCE_LIST
+
+You provide a list and this will step through the list sequentially, in the order that the items appear in the list. If there are 
+more records being generated than there are items in the list, then the sequencing will start over from the beginning of the list
+when the end of it is reached.  
+
+```
+
+{
+  name: 'friendsNames',
+  type: DataSynthUtil.SEQUENCE_LIST,
+  list: ['black beans', 'black-eyed peas', 'borlotti bean', 'broad beans', 'chickpeas', 'green beans', 'kidney beans', 'lentils']
+}
+
+```
+
+
 
 ###  DataSynthUtil.DATE_IN_PAST_EXACT
 

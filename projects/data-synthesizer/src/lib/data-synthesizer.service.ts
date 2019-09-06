@@ -175,7 +175,7 @@ export class DataSynthesizerService {
                   }
               }
 
-              if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM)) {
+              if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM) || (type === DataSynthUtil.SEQUENCE_LIST)) {
                 dataset[recIdx][tmp[0]] = config.valueFormattingFunctions[tmp[1]](config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx]][config.fields[configFieldIdx].listObjectFieldName[k]]);
               }
             } else {
@@ -188,7 +188,7 @@ export class DataSynthesizerService {
               }
 
               // if no list object field is specified, then assign entire array element
-              if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM)) {
+              if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM) || (type === DataSynthUtil.SEQUENCE_LIST)) {
                 dataset[recIdx][tmp[0]] = config.valueFormattingFunctions[tmp[1]](config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx]]);
               }
             }
@@ -220,7 +220,7 @@ export class DataSynthesizerService {
                 }
               }
 
-              if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM)) {
+              if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM) || (type === DataSynthUtil.SEQUENCE_LIST)) {
                 dataset[recIdx][config.fields[configFieldIdx].name[k]] = config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx]][config.fields[configFieldIdx].listObjectFieldName[k]];
               }
             } else {
@@ -233,7 +233,7 @@ export class DataSynthesizerService {
               }
 
               // if no list object field is specified, then assign entire list array element to the field
-              if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM)) {
+              if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM) || (type === DataSynthUtil.SEQUENCE_LIST)) {
                 dataset[recIdx][config.fields[configFieldIdx].name[k]] = config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx]];
               }
             }
@@ -276,7 +276,7 @@ export class DataSynthesizerService {
 
           // TODO: need err handling if fn not found/defined.
           // call formatting function
-          if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM)) {
+          if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM) || (type === DataSynthUtil.SEQUENCE_LIST)) {
             dataset[recIdx][tmp[0]] = config.valueFormattingFunctions[tmp[1]](config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx]]);
           }
 
@@ -291,7 +291,7 @@ export class DataSynthesizerService {
             dataset[recIdx][tmp[0]] = config.valueFormattingFunctions[tmp[1]](holdTmpVals[configFieldIdx][recIdx]);
           }
 
-        } else {
+        } else {  // else if field value is not an array, and no formatting function.
 
           if (type === DataSynthUtil.N_RANDOM_ITEMS_FROM_LIST) {
             dataset[recIdx][config.fields[configFieldIdx].name] = [];
@@ -300,7 +300,7 @@ export class DataSynthesizerService {
             }
           }
 
-          if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM)) {
+          if ((type === DataSynthUtil.RANDOM_LIST_WEIGHTED) || (type === DataSynthUtil.RANDOM_LIST_UNIFORM) || (type === DataSynthUtil.SEQUENCE_LIST)) {
             dataset[recIdx][config.fields[configFieldIdx].name] = config.fields[configFieldIdx].list[holdTmpVals[configFieldIdx][recIdx]];
           }
 
@@ -448,6 +448,20 @@ export class DataSynthesizerService {
           holdTmpVals[j] = this.chooseRandomItemsInternal(config.fields[j].list.length, config.fields[j].itemCount, config.recordsToGenerate);
           break;
 
+        case DataSynthUtil.SEQUENCE_LIST:
+          let cntr = 0;
+          tmpRnd = [];
+          for (k = 0; k < config.recordsToGenerate; k++) {
+            tmpRnd.push( config.fields[j].list[cntr] );
+            cntr++;
+
+            // if we exceed the length of the list, then start over, sequencing it from the beginning.
+            if (cntr >= config.fields[j].list.length) { cntr = 0; }
+          }
+
+          holdTmpVals[j] = tmpRnd;
+
+          break;
 
 
         // no-op; handled by recursing in. . .
@@ -493,6 +507,7 @@ export class DataSynthesizerService {
           case DataSynthUtil.RANDOM_LIST_WEIGHTED:
           case DataSynthUtil.RANDOM_LIST_UNIFORM:
           case DataSynthUtil.N_RANDOM_ITEMS_FROM_LIST:
+          case DataSynthUtil.SEQUENCE_LIST:
             assignDatasetVals(i, j, config.fields[j].type);
             break;
 
