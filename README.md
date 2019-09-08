@@ -5,4 +5,4 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 The only purpose of this angular application is to develop the data-synthesizer angular library located in `projects/data-synthesizer`. That
 is where you will find the source code for the data-synthesizer npm package.
 
-
+To build the data synthesizer library, use: `ng build data-synthesizer`

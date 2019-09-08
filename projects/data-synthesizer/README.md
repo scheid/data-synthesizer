@@ -254,7 +254,7 @@ when the end of it is reached.
 ```
 
 {
-  name: 'friendsNames',
+  name: 'beans_sequence',
   type: DataSynthUtil.SEQUENCE_LIST,
   list: ['black beans', 'black-eyed peas', 'borlotti bean', 'broad beans', 'chickpeas', 'green beans', 'kidney beans', 'lentils']
 }
