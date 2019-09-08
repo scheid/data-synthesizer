@@ -452,7 +452,8 @@ export class DataSynthesizerService {
           let cntr = 0;
           tmpRnd = [];
           for (k = 0; k < config.recordsToGenerate; k++) {
-            tmpRnd.push( config.fields[j].list[cntr] );
+            // tmpRnd.push( config.fields[j].list[cntr] );
+            tmpRnd.push( cntr );
             cntr++;
 
             // if we exceed the length of the list, then start over, sequencing it from the beginning.
