@@ -151,6 +151,17 @@ export class DataSynthesizerService {
     let holdTmpVals = [];
     let tmpRnd: any[];
 
+    const lorem = new LoremIpsum({
+      sentencesPerParagraph: {
+        max: 8,
+        min: 4
+      },
+      wordsPerSentence: {
+        max: 16,
+        min: 4
+      }
+    });
+
 
     // local convenience function for assigning values for most of the types.
     const assignDatasetVals = (recIdx: number, configFieldIdx: number, type: any) => {
@@ -322,32 +333,13 @@ export class DataSynthesizerService {
 
 
 
-          if (type === DataSynthUtil.LOREM_IPSUM) {
 
-            const lorem = new LoremIpsum({
-              sentencesPerParagraph: {
-                max: 8,
-                min: 4
-              },
-              wordsPerSentence: {
-                max: 16,
-                min: 4
-              }
-            });
-
-        ////    lorem.generateWords(1);
-        //    lorem.generateSentences(5);
-        //    lorem.generateParagraphs(7);
-
-            dataset[recIdx][config.fields[configFieldIdx].name[k]] = lorem.generateParagraphs(1);
-
-          }
 
 
         }
 
       }
-    };
+    };   // end assignDatasetVals
 
 
     for (i = 0; i < config.recordsToGenerate; i++) {
@@ -489,7 +481,7 @@ export class DataSynthesizerService {
             if (cntr >= config.fields[j].list.length) { cntr = 0; }
           }
 
-          holdTmpVals[j] = tmpRnd;
+          holdTmpVals[j] = tmpRnd.slice();
 
           break;
 
@@ -497,6 +489,18 @@ export class DataSynthesizerService {
         // no-op; handled by recursing in. . .
         case DataSynthUtil.OBJECT:
           break;
+
+          // create empty array; will be filled below.
+        case DataSynthUtil.LOREM_IPSUM:
+          tmpRnd = [];
+          for (k = 0; k < config.recordsToGenerate; k++) {
+            tmpRnd.push(lorem.generateParagraphs(1));
+          }
+
+          holdTmpVals[j] = tmpRnd.slice();
+          break;
+
+
 
 
       }
@@ -541,7 +545,9 @@ export class DataSynthesizerService {
             assignDatasetVals(i, j, config.fields[j].type);
             break;
 
-
+          case DataSynthUtil.LOREM_IPSUM:
+            dataset[i][config.fields[j].name] = holdTmpVals[j][i];
+            break;
         }
 
       }
