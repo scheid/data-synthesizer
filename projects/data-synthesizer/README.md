@@ -454,3 +454,22 @@ example:
 ```
 
 
+###  DataSynthUtil.LOREM_IPSUM
+
+Get a paragraph of lorem ipsum text. For now, this is not configurable; may add some parameters in the future for how
+many sentences and paragraphs to create.
+
+example:
+
+```
+{
+  name: 'longText',
+  type: DataSynthUtil.LOREM_IPSUM
+}
+
+
+```
+
+
+
+
