@@ -1,18 +1,25 @@
 {
   "name": "data-synthesizer",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "author": "Todd Eischeid",
   "description": "Realtime data generation tool for angular applications. Advantages: client-side only, regenerate data on the fly, easy to define and create hierarchical data sets",
   "homepage": "https://github.com/scheid/data-synthesizer",
-  "keywords": ["data generator", "pseudo random number generator", "mock data", "angular", "mock api", "webassembly"],
+  "keywords": [
+    "data generator",
+    "pseudo random number generator",
+    "mock data",
+    "angular",
+    "mock api",
+    "webassembly"
+  ],
   "peerDependencies": {
     "@angular/common": "^8.2.0",
     "@angular/core": "^8.2.0"
   },
-
   "dependencies": {
     "lodash": "^4.17.15",
-    "rxjs": "~6.4.0",
-    "prng-wasm": "~1.0.3"
+    "lorem-ipsum": "^2.0.3",
+    "prng-wasm": "~1.0.3",
+    "rxjs": "~6.4.0"
   }
 }

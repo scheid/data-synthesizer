@@ -6,6 +6,8 @@ import { filter, map } from 'rxjs/operators';
 import { DataSynthUtil } from './data-synth-util';
 import * as _ from 'lodash';
 
+import { LoremIpsum } from 'lorem-ipsum';
+
 // NOTE: when you regenerate the prng-wasm.js file (i.e., by recompiling the wasm file with emscripten),
 // you will need to edit this line at the top of the generated js:
 //  var _scriptDir;// = import.meta.url; -> comment out import.meta.url;
@@ -240,6 +242,7 @@ export class DataSynthesizerService {
 
 
 
+
             // for these, can directly assign holdTmpVals to the field value.
             // this case really doesn't make sense; an array of fields would really only be used when using source lists that are arrays of objects
             // this will work, but will assign the exact same random value to all fields in the array.
@@ -253,6 +256,8 @@ export class DataSynthesizerService {
             ) {
               dataset[recIdx][config.fields[configFieldIdx].name[k]] = holdTmpVals[configFieldIdx][recIdx];
             }
+
+
 
 
           }
@@ -314,6 +319,30 @@ export class DataSynthesizerService {
           ) {
             dataset[recIdx][config.fields[configFieldIdx].name] = holdTmpVals[configFieldIdx][recIdx];
           }
+
+
+
+          if (type === DataSynthUtil.LOREM_IPSUM) {
+
+            const lorem = new LoremIpsum({
+              sentencesPerParagraph: {
+                max: 8,
+                min: 4
+              },
+              wordsPerSentence: {
+                max: 16,
+                min: 4
+              }
+            });
+
+        ////    lorem.generateWords(1);
+        //    lorem.generateSentences(5);
+        //    lorem.generateParagraphs(7);
+
+            dataset[recIdx][config.fields[configFieldIdx].name[k]] = lorem.generateParagraphs(1);
+
+          }
+
 
         }
 

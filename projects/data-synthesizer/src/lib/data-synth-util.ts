@@ -56,4 +56,6 @@ export abstract class DataSynthUtil {
   public static TIME_TODAY_IN_PAST_RANGE = 0x11;
 
 
+  public static LOREM_IPSUM = 0x14;
+
 }
