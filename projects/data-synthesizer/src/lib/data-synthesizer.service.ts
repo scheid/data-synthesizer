@@ -154,12 +154,14 @@ export class DataSynthesizerService {
     const lorem = new LoremIpsum({
       sentencesPerParagraph: {
         max: 8,
-        min: 4
+        min: 5
       },
       wordsPerSentence: {
         max: 16,
-        min: 4
-      }
+        min: 6
+      },
+  //    random:  (put prng function here that returns the number 0.0 - 1.0)
+   //   seed
     });
 
 
@@ -493,14 +495,30 @@ export class DataSynthesizerService {
           // create empty array; will be filled below.
         case DataSynthUtil.LOREM_IPSUM:
           tmpRnd = [];
+
+
+
+          let paragraphCounts = [];
+
+          // populate an array with randomly selected paragraph counts across all records.
+          if (!config.fields[j].singleSentence) {
+            paragraphCounts = this.getRandomRangeInternal(config.fields[j].minParagraphs, config.fields[j].maxParagraphs, config.recordsToGenerate);
+          }
+
+          // config should contain either paragraphs or sentences; single sentence of true will take precedance over paragraph settings.
           for (k = 0; k < config.recordsToGenerate; k++) {
-            tmpRnd.push(lorem.generateParagraphs(1));
+
+            // the configuration will be either a single sentence, or 1 or more paragraphs.
+            if (config.fields[j].singleSentence) {
+              tmpRnd.push(lorem.generateSentences(1));
+            } else {
+              tmpRnd.push(lorem.generateParagraphs(paragraphCounts[k]));
+            }
+
           }
 
           holdTmpVals[j] = tmpRnd.slice();
           break;
-
-
 
 
       }

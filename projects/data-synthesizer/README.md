@@ -456,15 +456,20 @@ example:
 
 ###  DataSynthUtil.LOREM_IPSUM
 
-Get a paragraph of lorem ipsum text. For now, this is not configurable; may add some parameters in the future for how
-many sentences and paragraphs to create.
+Get a paragraph of lorem ipsum text. set a range of paragraphs to generate with `minParagraphs` and `maxParagraphs`. 
+Setting `singleSentence` to true will create just a single sentence for each record.
 
-example:
+example, that will generate between one and four paragraphs:
 
 ```
 {
   name: 'longText',
-  type: DataSynthUtil.LOREM_IPSUM
+  type: DataSynthUtil.LOREM_IPSUM,
+
+  singleSentence: false,
+  minParagraphs: 1,
+  maxParagraphs: 4
+  
 }
 
 
