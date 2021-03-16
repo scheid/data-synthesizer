@@ -1,5 +1,5 @@
 
-import { Injectable, Inject, Optional } from '@angular/core';
+
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -7,6 +7,11 @@ import { DataSynthUtil } from './data-synth-util';
 import * as _ from 'lodash';
 
 import { LoremIpsum } from 'lorem-ipsum';
+
+
+// NOTE: this is the same as the angular service, but with all angular dependencies removed, to use in plain js projects like React.
+// When you update or make edits, probably best to edit the angular service, then copy that file here, and remove angular dep. and
+// rename class to DataSynthesizerServiceBasic
 
 // NOTE: when you regenerate the prng-wasm.js file (i.e., by recompiling the wasm file with emscripten),
 // you will need to edit this line at the top of the generated js:
@@ -19,12 +24,7 @@ import {PrngEnscriptenModule, PrngWasmByteArray} from 'prng-wasm';
 
 // TODO: Field types to add:  CONSTANT, and integer range
 
-
-
-@Injectable({
-  providedIn: 'root'
-})
-export class DataSynthesizerService {
+export class DataSynthesizerServiceBasic {
 
   module: any;
   wasmReady = new BehaviorSubject<boolean>(false);
