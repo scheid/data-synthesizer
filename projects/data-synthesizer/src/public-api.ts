@@ -7,4 +7,3 @@ export * from './lib/data-synthesizer.service';
 export * from './lib/data-synthesizer.component';
 export * from './lib/data-synthesizer.module';
 export * from './lib/data-synth-util';
-export * from './lib/data-synthesizer-basic.service';
