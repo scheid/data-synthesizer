@@ -2,6 +2,8 @@
 
 Provides a highly configurable way to dynamically generate data to mimic an API call, etc.  The data synthesizer is an angular service that is integrated into an Angular project, and the data is created in realtime using a call to the service.  This is a completely client-side service; no server side is needed.
 
+If you are using React or Vue instead of Angular, there is an alternate npm package that has no Angular dependencies. You can get that at [https://www.npmjs.com/package/data-synthesizer-basic](https://www.npmjs.com/package/data-synthesizer-basic).  The documentation below still applies to the non-angular version.
+
 The generation is very fast, typically less than a 100 milliseconds for 500 records and ~10 fields.  The random number generation at the heart of the synthesizer is handled by a WebAssembly module that uses the Mersenne Twister C implementation. The source code for that WebAssembly module is at https://github.com/scheid/prng-wasm
 
 To generate data within your angular project, you create a javascript configuration object to pass to the synthesizer. The config object completely defines the structure of the data, field definitions, how to generate the data for each field, and how much data to generate.  
@@ -140,11 +142,14 @@ The types of data generation that you can use. These are all listed in the DataS
 
 ### DataSynthUtil.RANDOM_NUMERIC_RANGE_UNIFORM
 
-Generates numeric values in the range 0.0 to 1.0 (non-inclusive). Values will be uniformly distributed in that range, meaning 
+By default, will generate numeric values in the range 0.0 to 1.0 (non-inclusive). Values will be uniformly distributed in that range, meaning 
 all values in the range have equal probability of being selected.  Typically, just these raw numbers wouldn't be very useful, but
 is included as an option because it provides a basis for you to feed the values into a formatting 
 function that outputs more meaningful values.
-example:
+
+Optionally, you can specify a `min` and a `max` parameter to generate values in that specified range. And you can also specify a `decimalPlaces` parameter to round each value to a desired precision. To generate integer values, just specify `decimalPlaces` of `0`.
+
+example 1: generates values 0.0 to 1.0 (non-inclusive):
 ```
 {
   name: 'someNumbs',
@@ -152,9 +157,23 @@ example:
 }
 ```
 
+example 2: generates values 50 to 200 (non-inclusive), with each value rounded to 2 decimal places:
+```
+{
+  name: 'someNumbs',
+  type: DataSynthUtil.RANDOM_NUMERIC_RANGE_UNIFORM
+  min: 50,
+  max: 200,
+  decimalPlaces: 2
+}
+```
+
+
 ### DataSynthUtil.RANDOM_NUMERIC_RANGE_NORMAL
 
 Generates numeric values with a specified mean and standard deviation, and fitting a normal frequency distribution.
+
+You can also specify a `decimalPlaces` parameter to round each value to a desired precision.
 
 example:
 

@@ -1,3 +1,78 @@
+<div style="margin: 50px;">
 
-<p>app component</p>
+  <h2>Frequency distributions of the weight and height generated values</h2>
+
+  <div >
+
+   
+
+    <!--
+    <h3>BMI Value Frequency Distribution</h3>
+    <p>out of curiosity, what does the bmi distribution look like that was calculated from weight and height?</p>
+    <simple-histogram [data]="bmiDistribution"></simple-histogram>
+-->
+
+  </div>
+
+
+  <h2>Generated Data from the Data Synthesizer</h2>
+  <div>{{recordCount}} records generated in {{genTimeMsec}} milliseconds</div>
+
+  <table style="margin-top: 32px;">
+
+    <tr>
+      <th>ID</th>
+      <th>UUID</th>
+      <th>Person</th>
+      <th>Person name combined</th>
+      <th>Weight (lbs)</th>
+      <th>Height (inches)</th>
+      <th>BMI</th>
+      <th>Favorite Color</th>
+      <th>Date Created</th>
+      <th>Pets</th>
+      <th>Friend</th>
+      <th>other Friends</th>
+      <th>Sequence List Items</th>
+      <th>Long Text</th>
+    </tr>
+    <tr *ngFor="let item of generatedDataset">
+
+      <td>xx{{item.id}}</td>
+      <td>{{item.uuid}}</td>
+
+      <td>{{item.personLastName}}, {{item.personFirstName}}</td>
+      <td>{{item.firstAndLastName}}</td>
+      <td>{{item.weight_lbs}} lbs</td>
+      <td>{{item.height_inches}} inches</td>
+      <td>{{item.bmi}}</td>
+      <td>{{item.favoriteColor}}</td>
+      <td>{{formatDate(item.dateCreated)}}</td>
+      <td><div>has dog: {{item.personPets.hasDog}}</div>
+        <div>has cat: {{item.personPets.hasCat}}</div>
+        <div>has fish: {{item.personPets.hasFish}}</div></td>
+
+      <td>{{item.friendName}}</td>
+
+      <td>
+        <ul style="margin-top:0;padding-top:0">
+        <li style="margin-top:0;padding-top:0;padding-bottom:8px" *ngFor="let m of item.otherFriendsName">{{m}}</li>
+        </ul>
+      </td>
+      <td>{{item.beans_sequence}}</td>
+
+      <td>
+        <p *ngFor="let para of item.longText">{{para}}</p>
+      </td>
+
+    </tr>
+
+
+
+  </table>
+
+
+
+</div>
+
 <router-outlet></router-outlet>
