@@ -227,6 +227,12 @@ Notice in this example, it illustrates that you can reference a list rather than
 }
 ```
 
+There is also a boolean option called `ensureNoDuplicates`, which will ensure that the same list item does not appear twice
+across that variable in the dataset. If `ensureNoDuplicates` is true, you must ensure that the list being picked from is at 
+least as large as the number of records being generated.
+
+`ensureNoDuplicates` only exists on the RANDOM_LIST_UNIFORM option and is not available on RANDOM_LIST_WEIGHTED
+
 
 ### DataSynthUtil.RANDOM_LIST_WEIGHTED
 

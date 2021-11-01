@@ -1,6 +1,6 @@
 {
   "name": "data-synthesizer",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "author": "Todd Eischeid",
   "description": "Realtime data generation tool for angular applications. Advantages: client-side only, regenerate data on the fly, easy to define and create hierarchical data sets",
   "homepage": "https://github.com/scheid/data-synthesizer",

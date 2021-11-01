@@ -129,6 +129,7 @@ let DataSynthConfig = {
       // an entire randomly selected object to the field value.
       name: 'personName',
       list: personNames,
+      ensureNoDuplicates: true,
       type: DataSynthUtil.RANDOM_LIST_UNIFORM
 
     },
